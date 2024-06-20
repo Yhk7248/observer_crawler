@@ -48,8 +48,8 @@ class KafkaManager:
 
     def receive_message(self):
         for message in self.consumer:
-            kafka_message = message.value
-            print(f'Received: {kafka_message}')
+            kafka_message = self.consumer_serializer(message.value)
+            printl(f'Received: {self.topic_name} / Message: {kafka_message}')
 
     def create_topic(self):
         topic_list = [NewTopic(name=self.topic_name, num_partitions=3, replication_factor=3)]

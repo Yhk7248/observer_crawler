@@ -14,13 +14,13 @@ def run_enqueue_krx(topic_name, start_date, limit=100):
             cur_date += timedelta(days=1)
             continue
 
-        cur_date_str = cur_date.strftime('%Y-%m-%d')
+        cur_date_str = cur_date.strftime('%Y%m%d')
         cur_date += timedelta(days=1)
         manager.send_message({'date': cur_date_str})
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='krx kafka enquue')
+    parser = argparse.ArgumentParser(description='krx kafka enqueue')
     parser.add_argument('--topic-name', dest='topic_name', help='ex) stock_price')
     parser.add_argument('--start-date', dest='start_date', help='ex) 2024-03-24')
     args = parser.parse_args()
