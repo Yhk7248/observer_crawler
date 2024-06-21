@@ -10,14 +10,14 @@ class KrxHttp:
 
     def __init__(
         self, cookies: list, header: dict,
-        proxy: dict, url: str, form_url_dict: dict,
+        proxy: dict, url: str, body: dict,
         max_retry: int = 1
     ):
         self.header = header
         self.cookies = cookies
         self.proxy = proxy
         self.url = url
-        self.form_url_dict = form_url_dict
+        self.body = body
         self.max_retry = max_retry
         self.session = requests.Session()
         self.status_code = None
@@ -71,8 +71,8 @@ class KrxHttp:
         self.session.cookies.set_cookie(c)
 
     def post(self, date):
-        self.form_url_dict['trdDd'] = date
-        form_url_encoded = urllib.parse.urlencode(self.form_url_dict, doseq=True)
+        self.body['trdDd'] = date
+        form_url_encoded = urllib.parse.urlencode(self.body, doseq=True)
 
         response = self.session.post(
             url=self.url, data=form_url_encoded, headers=self.header

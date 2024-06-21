@@ -1,3 +1,4 @@
+import time
 import urllib.parse
 
 from selenium.webdriver.common.by import By
@@ -16,19 +17,28 @@ class KrxStockPriceCrawler(KrxCrawlerBase):
         super().__init__(url, proxy, self.topic_name)
 
     def prepare_crawling(self):
+        def get_target():
+            for req in self.driver.requests:
+                if "getJsonData.cmd" not in str(req):
+                    continue
+                body_str = req.body.decode('utf-8')
+                t_body = flatten_dict(urllib.parse.parse_qs(body_str))
+                if "bld" in t_body and t_body["bld"] == "dbms/MDC/STAT/standard/MDCSTAT01501":
+                    b_cookies = self.driver.get_cookies()
+                    t_header = dict(req.headers)
+                    return b_cookies, t_header, t_body
+
         self.open_krx()
+        # time.sleep(10)
         self.open(self.url)
+        time.sleep(10)
         self.wait_until_disabled(By.CLASS_NAME, "loading-bar-wrap")
 
-        driver_last_request = [req for req in self.driver.requests if "getJsonData.cmd" in str(req)][-1]
-        cookies = self.driver.get_cookies()
-        header = dict(driver_last_request.headers)
-        form_url_decoded = driver_last_request.body.decode('utf-8')
-        form_param_dict = flatten_dict(urllib.parse.parse_qs(form_url_decoded))
+        cookies, header, body = get_target()
 
         self.http_manager = KrxHttp(
             cookies=cookies, header=header,
-            proxy=self.proxy, form_url_dict=form_param_dict,
+            proxy=self.proxy, body=body,
             url="http://data.krx.co.kr/comm/bldAttendant/getJsonData.cmd"
         )
 
@@ -40,7 +50,6 @@ class KrxStockPriceCrawler(KrxCrawlerBase):
 
         return parsed
 
-    def run_crawling(self, date: str):
-        self.kafka_topic_manager.receive_message()
-        response_json = self.http_manager.post(date)
+    def run_crawling(self, cmd: dict):
+        response_json = self.http_manager.post(cmd.get('date'))
         return self.parse_data(response_json)

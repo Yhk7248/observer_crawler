@@ -50,6 +50,7 @@ class KafkaManager:
         for message in self.consumer:
             kafka_message = self.consumer_serializer(message.value)
             printl(f'Received: {self.topic_name} / Message: {kafka_message}')
+            return kafka_message
 
     def create_topic(self):
         topic_list = [NewTopic(name=self.topic_name, num_partitions=3, replication_factor=3)]
@@ -75,8 +76,3 @@ class KafkaManager:
         self.admin_client.close()
         self.consumer.close()
         self.producer.close()
-
-
-if __name__ == '__main__':
-    manager = KafkaManager(group_id='krx', topic_name='stock_price')
-    manager.receive_message()
