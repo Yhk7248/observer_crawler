@@ -1,0 +1,56 @@
+CREATE TABLE ob_lake.ts_stock (
+    ts_id VARCHAR(50) NOT NULL COMMENT 'ts_id',            -- ts_id
+    stock_code VARCHAR(10) NOT NULL COMMENT '종목코드',     -- 종목코드
+    stock_name VARCHAR(100) NOT NULL COMMENT '종목명',      -- 종목명
+    market_type VARCHAR(50) NOT NULL COMMENT '시장구분',    -- 시장구분
+    closing_price DECIMAL(10, 2) NOT NULL COMMENT '종가',   -- 종가
+    price_change DECIMAL(10, 2) NOT NULL COMMENT '대비',    -- 대비
+    price_change_rate DECIMAL(5, 2) NOT NULL COMMENT '등락률', -- 등락률
+    opening_price DECIMAL(10, 2) NOT NULL COMMENT '시가',  -- 시가
+    high_price DECIMAL(10, 2) NOT NULL COMMENT '고가',     -- 고가
+    low_price DECIMAL(10, 2) NOT NULL COMMENT '저가',      -- 저가
+    trade_volume BIGINT NOT NULL COMMENT '거래량',          -- 거래량
+    trade_amount DECIMAL(20, 2) NOT NULL COMMENT '거래대금', -- 거래대금
+    market_cap DECIMAL(20, 2) NOT NULL COMMENT '시가총액',  -- 시가총액
+    listed_shares BIGINT NOT NULL COMMENT '상장주식수',     -- 상장주식수
+    PRIMARY KEY (ts_id, market_type),                      -- 복합 기본키 설정
+    INDEX idx_stock_code_name (stock_code, stock_name)     -- 인덱스 설정
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+CREATE TABLE ob_lake.ts_data_kosdaq (
+    ts_id VARCHAR(50) NOT NULL COMMENT 'ts_id',            -- ts_id
+    stock_code VARCHAR(10) NOT NULL COMMENT '종목코드',     -- 종목코드
+    price_date DATE NOT NULL COMMENT '가격일자',            -- 가격일자
+    stock_name VARCHAR(100) NOT NULL COMMENT '종목명',      -- 종목명
+    closing_price DECIMAL(10, 2) NOT NULL COMMENT '종가',   -- 종가
+    price_change DECIMAL(10, 2) NOT NULL COMMENT '대비',    -- 대비
+    price_change_rate DECIMAL(5, 2) NOT NULL COMMENT '등락률', -- 등락률
+    opening_price DECIMAL(10, 2) NOT NULL COMMENT '시가',  -- 시가
+    high_price DECIMAL(10, 2) NOT NULL COMMENT '고가',     -- 고가
+    low_price DECIMAL(10, 2) NOT NULL COMMENT '저가',      -- 저가
+    trade_volume BIGINT NOT NULL COMMENT '거래량',          -- 거래량
+    trade_amount DECIMAL(20, 2) NOT NULL COMMENT '거래대금', -- 거래대금
+    market_cap DECIMAL(20, 2) NOT NULL COMMENT '시가총액',  -- 시가총액
+    listed_shares BIGINT NOT NULL COMMENT '상장주식수',     -- 상장주식수
+    PRIMARY KEY (ts_id, price_date),                      -- 복합 기본키 설정
+    INDEX idx_stock_code_name (stock_code, stock_name)     -- 인덱스 설정
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+CREATE TABLE ob_lake.ts_data_kospi (
+    ts_id VARCHAR(50) NOT NULL COMMENT 'ts_id',            -- ts_id
+    stock_code VARCHAR(10) NOT NULL COMMENT '종목코드',     -- 종목코드
+    price_date DATE NOT NULL COMMENT '가격일자',            -- 가격일자
+    stock_name VARCHAR(100) NOT NULL COMMENT '종목명',      -- 종목명
+    closing_price DECIMAL(10, 2) NOT NULL COMMENT '종가',   -- 종가
+    price_change DECIMAL(10, 2) NOT NULL COMMENT '대비',    -- 대비
+    price_change_rate DECIMAL(5, 2) NOT NULL COMMENT '등락률', -- 등락률
+    opening_price DECIMAL(10, 2) NOT NULL COMMENT '시가',  -- 시가
+    high_price DECIMAL(10, 2) NOT NULL COMMENT '고가',     -- 고가
+    low_price DECIMAL(10, 2) NOT NULL COMMENT '저가',      -- 저가
+    trade_volume BIGINT NOT NULL COMMENT '거래량',          -- 거래량
+    trade_amount DECIMAL(20, 2) NOT NULL COMMENT '거래대금', -- 거래대금
+    market_cap DECIMAL(20, 2) NOT NULL COMMENT '시가총액',  -- 시가총액
+    listed_shares BIGINT NOT NULL COMMENT '상장주식수',     -- 상장주식수
+    PRIMARY KEY (ts_id, price_date),                      -- 복합 기본키 설정
+    INDEX idx_stock_code_name (stock_code, stock_name)     -- 인덱스 설정
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

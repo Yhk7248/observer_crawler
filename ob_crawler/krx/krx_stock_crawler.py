@@ -29,7 +29,7 @@ class KrxStockPriceCrawler(KrxCrawlerBase):
                     return b_cookies, t_header, t_body
 
         self.open_krx()
-        # time.sleep(10)
+        time.sleep(10)
         self.open(self.url)
         time.sleep(10)
         self.wait_until_disabled(By.CLASS_NAME, "loading-bar-wrap")
