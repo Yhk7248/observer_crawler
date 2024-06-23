@@ -65,5 +65,23 @@ class TsDb(Db):
         cursor.close()
 
     """ select """
-    def get_ts_stock(self):
-        pass
+    def get_all_ts_stock(self, stock_code=False, market_type=False):
+        col_list = ['ts_id']
+
+        if stock_code:
+            col_list.append('stock_code')
+
+        if market_type:
+            col_list.append('market_type')
+
+        col_str = ','.join(col_list)
+        sql_select = f"""
+            SELECT {col_str} FROM {DB_LAKE}.ts_stock
+        """
+
+        cursor = self.cnx.cursor(dictionary=True)
+        cursor.execute(sql_select)
+        fet_list = cursor.fetchall()
+        cursor.close()
+
+        return fet_list

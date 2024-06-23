@@ -31,9 +31,15 @@ def insert_cr_ts_data(price_date, cr_data_list: list[KrxPriceData]):
     ts_db = TsDb()
     ts_db.connect()
     price_date = datetime.strptime(price_date, "%Y%m%d").date()
+    ts_info_dict = ts_info_dict_from_list(
+        ts_db.get_all_ts_stock(stock_code=True, market_type=True))
+
     for cr_data in cr_data_list:
+        key = (cr_data.ISU_SRT_CD, cr_data.MKT_NM)
+        ts_id = ts_info_dict[key] if key in ts_info_dict else str(uuid.uuid4())
+        ts_info_dict[key] = ts_id
         stock = TsStock(
-            ts_id=str(uuid.uuid4()),
+            ts_id=ts_id,
             stock_code=cr_data.ISU_SRT_CD,
             stock_name=cr_data.ISU_ABBRV,
             market_type=cr_data.MKT_NM,
@@ -65,6 +71,16 @@ def convert_to_number(number_str):
     except ValueError:
         print(f"Error: {number_str} is not a valid number.")
         return None
+
+
+def ts_info_dict_from_list(ts_info_list: list):
+    ts_info_dict = {}
+
+    for ts_info in ts_info_list:
+        key = (ts_info.get('stock_code'), ts_info.get('market_type'))
+        ts_info_dict[key] = ts_info.get('ts_id')
+
+    return ts_info_dict
 
 
 if __name__ == "__main__":
