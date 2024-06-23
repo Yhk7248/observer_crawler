@@ -54,3 +54,8 @@ CREATE TABLE ob_lake.ts_data_kospi (
     PRIMARY KEY (ts_id, price_date),                      -- 복합 기본키 설정
     INDEX idx_stock_code_name (stock_code, stock_name)     -- 인덱스 설정
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+CREATE TABLE ob_lake.ts_cr_day (
+    cr_date VARCHAR(10) NOT NULL COMMENT '크롤링 날짜',
+    cr_source VARCHAR(100) NOT NULL COMMENT '데이터 소스'
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

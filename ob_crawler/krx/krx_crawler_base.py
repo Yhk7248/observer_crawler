@@ -60,6 +60,10 @@ class KrxCrawlerBase(metaclass=abc.ABCMeta):
     def open(self, url):
         self.driver.get(url)
 
+    def close(self):
+        self.driver.quit()
+        self.driver.close()
+
     def wait_until_located(self, by, by_str: str, time_wait=10.0):
         try:
             element = WebDriverWait(driver=self.driver, timeout=time_wait).until(

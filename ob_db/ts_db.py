@@ -64,6 +64,16 @@ class TsDb(Db):
         cursor.execute(sql_insert, data)
         cursor.close()
 
+    def update_cr_day(self, cr_date, cr_source):
+        sql_update = f"""
+            UPDATE ob_lake.ts_cr_day 
+            SET cr_date = '{cr_date}'
+            WHERE cr_source = '{cr_source}';
+        """
+        cursor = self.cnx.cursor()
+        cursor.execute(sql_update)
+        cursor.close()
+
     """ select """
     def get_all_ts_stock(self, stock_code=False, market_type=False):
         col_list = ['ts_id']
@@ -85,3 +95,15 @@ class TsDb(Db):
         cursor.close()
 
         return fet_list
+
+    def get_ts_cr_day(self, cr_source):
+        sql_select = f"""
+            SELECT * FROM {DB_LAKE}.tr_cr_day
+            WHERE cr_source='{cr_source}'
+        """
+        cursor = self.cnx.cursor(dictionary=True)
+        cursor.execute(sql_select)
+        fet = cursor.fetchone()
+        cursor.close()
+
+        return fet

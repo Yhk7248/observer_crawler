@@ -6,7 +6,7 @@ from ob_kafka.kafka_manager import KafkaManager
 
 def run_enqueue_krx(topic_name, start_date, limit=100):
     manager = KafkaManager(topic_name=topic_name, group_id='krx')
-    cur_date = datetime.strptime(start_date, '%Y-%m-%d')
+    cur_date = datetime.strptime(start_date, '%Y%m%d')
 
     for i in range(0, limit, 1):
 
@@ -22,7 +22,7 @@ def run_enqueue_krx(topic_name, start_date, limit=100):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='krx kafka enqueue')
     parser.add_argument('--topic-name', dest='topic_name', help='ex) stock_price')
-    parser.add_argument('--start-date', dest='start_date', help='ex) 2024-03-24')
+    parser.add_argument('--start-date', dest='start_date', help='ex) 20240324')
     args = parser.parse_args()
 
     run_enqueue_krx(topic_name=args.topic_name, start_date=args.start_date)
