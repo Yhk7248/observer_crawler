@@ -23,7 +23,7 @@ def job():
     start_crawler('price')
 
 
-schedule.every().day.at("19:00").do(job)  # 매일 19:00
+schedule.every().day.at("22:30").do(job)  # 매일 09:00
 
 while True:
     schedule.run_pending()
