@@ -1,0 +1,49 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python Debugger: run_krx_enq_kafka",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "args": ["--topic-name", "stock_price", "--start-date", "20240324"]
+        },
+        {
+            "name": "Python Debugger: run_topic_manager",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "args": ["create", "--topic-name", "stock_price"]
+        }
+    ]
+}
+
+// {
+//     // Use IntelliSense to learn about possible attributes.
+//     // Hover to view descriptions of existing attributes.
+//     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+//     "version": "0.2.0",
+//     "configurations": [
+//         {
+//             "name": "Python Debugger: Current File with Arguments",
+//             "type": "debugpy",
+//             "request": "launch",
+//             "program": "${workspaceFolder}/ob_kafka/run_topic_manager.py",
+//             "console": "integratedTerminal",
+//             "args": ["create", "--topic-name", "stock_price"]
+//         },
+//         {
+//             "name": "Python Debugger: Current File with Arguments",
+//             "type": "debugpy",
+//             "request": "launch",
+//             "program": "${workspaceFolder}/ob_crawler/krx/run_krx_enq_kafka.py",
+//             "console": "integratedTerminal",
+//             "args": ["--topic-name", "stock_price", "--start-date", "20240324"]
+//         }
+//     ]
+// }
