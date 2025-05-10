@@ -12,16 +12,17 @@ from ob_crawler.krx.krx_stock_crawler import KrxStockPriceCrawler
 # from ob_crawler.krx.krx_index_crawler import KrxIndexPriceCrawler
 
 
-def start_crawler(cr_type):
+def start_crawler(cr_type, crawling_max=100):
     if cr_type == "price":
         cr = KrxStockPriceCrawler()
         cr.prepare_crawling()
 
-        for try_num in range(100):
+        for try_num in range(crawling_max):
             try:
                 cmd = cr.kafka_topic_manager.receive_message()
                 cr_data_list = cr.run_crawling(cmd)
                 insert_cr_ts_data(cmd.get('date'), cr_data_list)
+                printl(f"Crawling....  ({try_num+1}/{crawling_max})")
             except Exception as e:
                 printl(e)
 

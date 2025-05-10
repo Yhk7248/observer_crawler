@@ -18,7 +18,12 @@ class KrxCrawlerBase(metaclass=abc.ABCMeta):
         self.url = url
         self.proxy = {} if proxy is None else proxy.get("proxy", {})
         self.browser_options = webdriver.ChromeOptions()
-        self.service = Service(executable_path=ChromeDriverManager().install())
+
+        chrome_path = ChromeDriverManager().install()
+        if "THIRD_PARTY_NOTICES.chromedriver" in chrome_path:
+            chrome_path = chrome_path.replace("THIRD_PARTY_NOTICES.chromedriver", "chromedriver")
+
+        self.service = Service(executable_path=chrome_path)
         self.generate_options()
         self.driver = self.generate_driver()
         self.kafka_topic_manager = KafkaManager(
@@ -46,7 +51,7 @@ class KrxCrawlerBase(metaclass=abc.ABCMeta):
         # }
         # self.browser_options.add_experimental_option('prefs', prefs)
         self.browser_options.add_argument("--no-sandbox")  # No protection needed
-        self.browser_options.add_argument("--headless=new")  # Hide the GUI
+        # self.browser_options.add_argument("--headless=new")  # Hide the GUI
         self.browser_options.add_argument("--single-process")  # Lambda only give us only one CPU
         self.browser_options.add_argument("--disable-dev-shm-usage")
         self.browser_options.add_argument("--disable-extensions")  # disabling extensions

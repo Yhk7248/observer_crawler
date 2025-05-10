@@ -98,7 +98,7 @@ class TsDb(Db):
 
     def get_ts_cr_day(self, cr_source):
         sql_select = f"""
-            SELECT * FROM {DB_LAKE}.tr_cr_day
+            SELECT * FROM {DB_LAKE}.ts_cr_day
             WHERE cr_source='{cr_source}'
         """
         cursor = self.cnx.cursor(dictionary=True)
@@ -108,3 +108,13 @@ class TsDb(Db):
 
         return fet
 
+    def upsert_ts_cr_day(self, cr_source, cr_date):
+        sql_upsert = f"""
+            INSERT INTO {DB_LAKE}.ts_cr_day (cr_source, cr_date)
+            VALUES ('{cr_source}', '{cr_date}')
+            ON DUPLICATE KEY UPDATE
+                cr_date = VALUES(cr_date)
+        """
+        cursor = self.cnx.cursor()
+        cursor.execute(sql_upsert)
+        cursor.close()
